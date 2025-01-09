@@ -1,0 +1,111 @@
+﻿<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geyik Lounge Menu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<style>
+    body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center; /* Ortala */
+        align-items: center; /* Ortala */
+        height: 100vh; /* Sayfa yüksekliği */
+        background: linear-gradient(to right, #d3d3d3 50%, #ffffff 50%);
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #d3d3d3 50%, #ffffff 50%);
+        height: 100vh; /* Tam ekran yüksekliği */
+        display: flex;
+        flex-direction: column; /* Dikey hizalama için */
+        justify-content: center; /* Dikeyde ortalama */
+        align-items: center; /* Yatayda ortalama */
+    }
+
+    .logo {
+        display: flex;
+        justify-content: center; /* Yatayda ortala */
+        align-items: center; /* Dikeyde ortala */
+        margin-bottom: 20px; /* Logonun altında boşluk bırak */
+    }
+
+        .logo img {
+            max-width: 150px; /* Logonun maksimum genişliği */
+            border-radius: 50%; /* Logoyu yuvarlak hale getir */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+        }
+
+    .swiper {
+        width: 100%;
+        max-width: 1200px; /* Swiper genişliği */
+        height: 360px; /* Swiper yüksekliği */
+    }
+
+    .swiper-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper {
+        width: 100%;
+        max-width: 240px; /* Swiper genişliği */
+        height: 320px; /* Swiper yüksekliği */
+    }
+
+    .swiper-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide {
+        width: 240px; /* Kart genişliği */
+        height: 320px; /* Kart yüksekliği */
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .swiper-slide img {
+            width: 90%;
+            height: 50%;
+            object-fit: cover;
+            border-bottom: 2px solid #ddd;
+        }
+
+
+        .swiper-slide span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .swiper-slide:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #333;
+    }
+</style>
+
+
+

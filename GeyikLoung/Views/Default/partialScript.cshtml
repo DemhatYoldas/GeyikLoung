@@ -1,0 +1,44 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const categoryId = 1; // Örnek kategori ID'si
+        fetch(`/Default/GetByCategory?categoryId=${categoryId}`)
+            .then(response => response.json())
+            .then(products => {
+                const swiperWrapper = document.querySelector('.swiper-wrapper');
+
+                products.forEach(product => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide');
+
+                    slide.innerHTML = `
+                        <img src="${product.ImagePath}" alt="${product.Name}">
+                        <span>${product.Name}</span>
+                        <span>${product.Price}₺</span>
+                    `;
+
+                    swiperWrapper.appendChild(slide);
+                });
+
+                // Swiper'i başlat
+               const swiper = new Swiper('.mySwiper', {
+                     effect: 'cards',
+                     grabCursor: true,
+                     loop: true,
+                     speed: 200, // Kaydırma hızını 200ms yaptık (varsayılan 300ms)
+                });
+            })
+            .catch(error => console.error("Veri çekme hatası:", error));
+    });
+
+    function showModal(title, description) {
+        const modalTitle = document.getElementById('productModalLabel');
+        const modalBody = document.querySelector('#productModal .modal-body');
+        modalTitle.textContent = title;
+        modalBody.textContent = description;
+        const modal = new bootstrap.Modal(document.getElementById('productModal'));
+        modal.show();
+    }
+</script>
