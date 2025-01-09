@@ -132,6 +132,7 @@
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\ProductController.cs" />
     <Compile Include="Controllers\Default\DefaultController.cs" />
+    <Compile Include="Controllers\Login\AdminLoginController.cs" />
     <Compile Include="Entities\Admin.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Product.cs" />
@@ -149,6 +150,10 @@
     <Compile Include="Migrations\202501090002171_mig.cs" />
     <Compile Include="Migrations\202501090002171_mig.Designer.cs">
       <DependentUpon>202501090002171_mig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501090444380_Add.cs" />
+    <Compile Include="Migrations\202501090444380_Add.Designer.cs">
+      <DependentUpon>202501090444380_Add.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3972,6 +3977,19 @@
     <Content Include="Thema\admin\vendors\validator\multifield.js" />
     <Content Include="Thema\admin\vendors\validator\validator.js" />
     <Content Include="Thema\GeyikLounge_logo_150x150.png" />
+    <Content Include="Thema\login\css\bootstrap.min.css" />
+    <Content Include="Thema\login\css\bootstrap\mixins\_border-radius.css" />
+    <Content Include="Thema\login\css\bootstrap\mixins\_screen-reader.css" />
+    <Content Include="Thema\login\css\bootstrap\mixins\_visibility.css" />
+    <Content Include="Thema\login\css\bootstrap\utilities\_stretched-link.css" />
+    <Content Include="Thema\login\css\bootstrap\_media.css" />
+    <Content Include="Thema\login\css\style.css" />
+    <Content Include="Thema\login\index.html" />
+    <Content Include="Thema\login\js\bootstrap.min.js" />
+    <Content Include="Thema\login\js\jquery.min.js" />
+    <Content Include="Thema\login\js\main.js" />
+    <Content Include="Thema\login\js\popper.js" />
+    <Content Include="Thema\login\main.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -5069,6 +5087,106 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\AdminLogin\Index.cshtml" />
+    <Content Include="Thema\login\.DS_Store" />
+    <Content Include="Thema\login\css\.DS_Store" />
+    <Content Include="Thema\login\css\bootstrap\.DS_Store" />
+    <Content Include="Thema\login\css\bootstrap\mixins\.DS_Store" />
+    <Content Include="Thema\login\fonts\.DS_Store" />
+    <Content Include="Thema\login\images\.DS_Store" />
+    <Content Include="Thema\login\js\.DS_Store" />
+    <Content Include="Thema\login\scss\.DS_Store" />
+    <Content Include="Thema\login\scss\bootstrap\.DS_Store" />
+    <Content Include="Thema\login\scss\bootstrap\bootstrap-grid.scss" />
+    <Content Include="Thema\login\scss\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="Thema\login\scss\bootstrap\bootstrap.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_alert.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_badge.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_box-shadow.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_buttons.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_caret.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_deprecate.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_float.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_forms.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_gradients.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_grid.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_hover.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_image.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_list-group.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_lists.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_pagination.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_resize.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_screen-reader.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_size.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_table-row.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_text-hide.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_transition.scss" />
+    <Content Include="Thema\login\scss\bootstrap\mixins\_visibility.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_align.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_background.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_borders.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_clearfix.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_display.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_embed.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_flex.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_float.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_overflow.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_position.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_screenreaders.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_shadows.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_sizing.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_spacing.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_stretched-link.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_text.scss" />
+    <Content Include="Thema\login\scss\bootstrap\utilities\_visibility.scss" />
+    <Content Include="Thema\login\scss\bootstrap\vendor\_rfs.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_alert.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_badge.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_breadcrumb.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_button-group.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_buttons.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_card.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_carousel.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_close.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_code.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_custom-forms.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_dropdown.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_forms.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_functions.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_grid.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_images.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_input-group.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_jumbotron.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_list-group.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_media.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_mixins.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_modal.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_nav.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_navbar.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_pagination.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_popover.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_print.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_progress.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_reboot.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_root.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_spinners.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_tables.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_toasts.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_tooltip.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_transitions.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_type.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_utilities.scss" />
+    <Content Include="Thema\login\scss\bootstrap\_variables.scss" />
+    <Content Include="Thema\login\scss\style.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -5118,6 +5236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202501090002171_mig.resx">
       <DependentUpon>202501090002171_mig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501090444380_Add.resx">
+      <DependentUpon>202501090444380_Add.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

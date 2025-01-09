@@ -8,7 +8,18 @@ namespace GeyikLoung.Controllers.Admin
 {
     public class AdminController : Controller
     {
-        // GET: Admin
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    if (Session["AdminId"] == null)
+        //    {
+        //        filterContext.Result = RedirectToAction("Index", "AdminLogin");
+        //    }
+
+        //    base.OnActionExecuting(filterContext);
+        //}
+
+
+        //[Authorize]// Yalnızca giriş yapmış kullanıcıların erişebileceği sayfa
         public ActionResult Index()
         {
             return View();
