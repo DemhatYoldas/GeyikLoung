@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model GeyikLoung.Entities.Product
+
+<h2>Bu Ürünü silmek istediğinizden emin misiniz?</h2>
+<div>
+    <h3>@Model.Name</h3>
+    <img src="@Model.ImagePath" alt="@Model.Name" style="max-width:200px;" />
+</div>
+
+@using (Html.BeginForm("Delete", "Product", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Kapat</a>
+}

@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<GeyikLoung.Entities.Product>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="white_shd full margin_bottom_30 w-100">
+        <div class="full graph_head">
+            <div class="heading1 margin_0">
+                <h2 class="text-center">Ürünler </h2>
+            </div>
+            <div class="text-right">
+                <!-- Kategori ekle butonu sağ tarafta yer alacak -->
+                <a class="btn btn-success" href="@Url.Action("Create", "Product")">Ürün ekle</a>
+            </div>
+        </div>
+        <div class="table_section padding_infor_info">
+            <div class="table-responsive-sm">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">İsim</th>
+                            <th scope="col">Resim</th>
+                            <th scope="col">Fiyat</th>
+                            <th scope="col">Bulunduğu Kategori</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <th scope="row">@product.Id</th>
+                                <td>@product.Name</td>
+                                <td>
+                                    <img src="@product.ImagePath" alt="@product.Name" class="img-thumbnail" style="width: 100px; height: auto;" />
+                                </td>
+                                <td>@product.Price</td>
+                                <td>@product.Category.Name</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Product", new { id = product.Id })" class="btn btn-sm btn-outline-primary">Düzenle</a>
+                                    @using (Html.BeginForm("Delete", "Product", new { id = product.Id }, FormMethod.Post, new { @class = "d-inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu Ürünü silmek istediğinizden emin misiniz?');">Sil</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .white_shd {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+</style>
+
+
+
