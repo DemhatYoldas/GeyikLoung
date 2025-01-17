@@ -16,7 +16,14 @@ namespace GeyikLoung
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+            );
+
+            // GeyikLoung sayfasını varsayılan olarak ayarlama
+            routes.MapRoute(
+                name: "GeyikLoung",
+                url: "",
+                defaults: new { controller = "GeyikLoung", action = "Index" }
             );
         }
     }

@@ -155,6 +155,10 @@
     <Compile Include="Migrations\202501090444380_Add.Designer.cs">
       <DependentUpon>202501090444380_Add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202501171521071_MigrationTest.cs" />
+    <Compile Include="Migrations\202501171521071_MigrationTest.Designer.cs">
+      <DependentUpon>202501171521071_MigrationTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -5239,6 +5243,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202501090444380_Add.resx">
       <DependentUpon>202501090444380_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501171521071_MigrationTest.resx">
+      <DependentUpon>202501171521071_MigrationTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

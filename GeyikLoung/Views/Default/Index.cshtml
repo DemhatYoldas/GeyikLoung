@@ -12,8 +12,7 @@
 <body>
     <div class="logo">
         <a href="#">
-            <img src="~/Thema/GeyikLounge_logo_150x150.png" alt="Logo"/>
-           
+            <img src="~/Thema/GeyikLounge_logo_150x150.png" alt="Logo" />
         </a>
     </div>
 
@@ -31,9 +30,7 @@
                 </div>
             }
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
+      </div>
 
 
     <!-- Modal -->
@@ -45,7 +42,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Yükleniyor...
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -61,22 +60,28 @@
 
             // Modal içeriğini sıfırla
             const modalBody = document.querySelector("#categoriModal .modal-body");
-            modalBody.innerHTML = 'Yükleniyor...';
+            modalBody.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Yükleniyor...</span></div>';
 
             // Ajax ile ürünleri getir
             fetch(`/Default/GetByCategory?categoryId=${categoryId}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(products => {
                     if (products.length > 0) {
                         let content = '<div class="row bg-light p-3">';
                         products.forEach((product, index) => {
+                            const imagePath = product.ImagePath || '/images/default-product.png';
                             content += `
-                                <div class="col-md-6 text-center mb-4">
-                                    <img src="${product.ImagePath}" alt="${product.Name}" style="width: 100px; height: 100px;  class="img-fluid rounded" />
-                                    <h6>${product.Name}</h6>
-                                    <p>${product.Price.toFixed(2)} ₺</p>
-                                </div>
-                            `;
+                                    <div class="col-md-6 text-center mb-4">
+                                        <img src="${imagePath}" alt="${product.Name}" class="img-fluid rounded" />
+                                        <h6>${product.Name}</h6>
+                                        <p>${product.Price.toFixed(2)} ₺</p>
+                                    </div>
+                                `;
                         });
                         content += '</div>';
                         modalBody.innerHTML = content;
@@ -85,7 +90,7 @@
                     }
                 })
                 .catch(error => {
-                    modalBody.innerHTML = '<p>Ürünler yüklenirken bir hata oluştu.</p>';
+                    modalBody.innerHTML = '<p>Ürünler yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.</p>';
                     console.error('Error fetching products:', error);
                 });
 
@@ -95,6 +100,59 @@
         }
 
     </script>
+
+    <style>
+        .modal-body .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-body .col-md-6 {
+            max-width: 200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .modal-body img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .modal-body h6 {
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .modal-body p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .swiper-slide img {
+                max-width: 150px;
+                max-height: 150px;
+                object-fit: cover;
+                border-radius: 10px;
+                margin-bottom: 10px;
+            }
+
+            .swiper-slide span {
+                display: block;
+                font-size: 16px;
+                font-weight: bold;
+            }
+    </style>
 
     @Html.Action("partialScript", "Default")
 </body>
