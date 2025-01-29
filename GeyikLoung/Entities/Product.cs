@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GeyikLoung.Entities
 {
@@ -15,5 +11,8 @@ namespace GeyikLoung.Entities
         public string ImagePath { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+
+        public int? AltKategoriId { get; set; }  // Alt kategori opsiyonel
+        public virtual AltKategori AltKategori { get; set; }  // Alt kategori ilişkilendirme
     }
 }

@@ -1,8 +1,2 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Merhaba Hoş geldiniz </h2>
-
+﻿<h1>Admin Paneline Hoş Geldiniz, @Session["UserName"]!</h1>
+<a href="@Url.Action("Logout", "Admin")" class="btn btn-danger">Çıkış Yap</a>

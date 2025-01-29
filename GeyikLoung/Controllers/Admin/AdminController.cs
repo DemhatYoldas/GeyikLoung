@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GeyikLoung.Context;
+using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace GeyikLoung.Controllers.Admin
 {
     public class AdminController : Controller
     {
-        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        //{
-        //    if (Session["AdminId"] == null)
-        //    {
-        //        filterContext.Result = RedirectToAction("Index", "AdminLogin");
-        //    }
-
-        //    base.OnActionExecuting(filterContext);
-        //}
+        private GeyikLoungContext db = new GeyikLoungContext(); // Veritabanı bağlamı
 
 
-        //[Authorize]// Yalnızca giriş yapmış kullanıcıların erişebileceği sayfa
         public ActionResult Index()
         {
             return View();
         }
 
+
+
+        // Partial Views
         public PartialViewResult partialHead()
         {
             return PartialView();
@@ -49,5 +46,6 @@ namespace GeyikLoung.Controllers.Admin
         {
             return PartialView();
         }
+
     }
 }

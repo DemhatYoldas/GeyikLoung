@@ -13,5 +13,6 @@ namespace GeyikLoung.Context
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<AltKategori> AltKategoris { get; set; }
     }
 }

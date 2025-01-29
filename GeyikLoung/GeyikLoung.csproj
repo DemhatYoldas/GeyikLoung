@@ -53,6 +53,12 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -132,8 +138,8 @@
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\ProductController.cs" />
     <Compile Include="Controllers\Default\DefaultController.cs" />
-    <Compile Include="Controllers\Login\AdminLoginController.cs" />
     <Compile Include="Entities\Admin.cs" />
+    <Compile Include="Entities\AltKategori.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Global.asax.cs">
@@ -159,6 +165,26 @@
     <Compile Include="Migrations\202501171521071_MigrationTest.Designer.cs">
       <DependentUpon>202501171521071_MigrationTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202501250050337_migpassword.cs" />
+    <Compile Include="Migrations\202501250050337_migpassword.Designer.cs">
+      <DependentUpon>202501250050337_migpassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501272346054_AddAdminPasswordSalt.cs" />
+    <Compile Include="Migrations\202501272346054_AddAdminPasswordSalt.Designer.cs">
+      <DependentUpon>202501272346054_AddAdminPasswordSalt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501280054078_migo.cs" />
+    <Compile Include="Migrations\202501280054078_migo.Designer.cs">
+      <DependentUpon>202501280054078_migo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501282243448_NewMigrationName.cs" />
+    <Compile Include="Migrations\202501282243448_NewMigrationName.Designer.cs">
+      <DependentUpon>202501282243448_NewMigrationName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501282337281_AddAltKategoriAndProductAltKategori1.cs" />
+    <Compile Include="Migrations\202501282337281_AddAltKategoriAndProductAltKategori1.Designer.cs">
+      <DependentUpon>202501282337281_AddAltKategoriAndProductAltKategori1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -179,6 +205,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -5091,7 +5118,6 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\AdminLogin\Index.cshtml" />
     <Content Include="Thema\login\.DS_Store" />
     <Content Include="Thema\login\css\.DS_Store" />
     <Content Include="Thema\login\css\bootstrap\.DS_Store" />
@@ -5246,6 +5272,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202501171521071_MigrationTest.resx">
       <DependentUpon>202501171521071_MigrationTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501250050337_migpassword.resx">
+      <DependentUpon>202501250050337_migpassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501272346054_AddAdminPasswordSalt.resx">
+      <DependentUpon>202501272346054_AddAdminPasswordSalt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501280054078_migo.resx">
+      <DependentUpon>202501280054078_migo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501282243448_NewMigrationName.resx">
+      <DependentUpon>202501282243448_NewMigrationName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501282337281_AddAltKategoriAndProductAltKategori1.resx">
+      <DependentUpon>202501282337281_AddAltKategoriAndProductAltKategori1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

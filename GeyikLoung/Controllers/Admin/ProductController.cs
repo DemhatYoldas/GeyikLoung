@@ -1,5 +1,7 @@
 ﻿using GeyikLoung.Context;
 using GeyikLoung.Entities;
+using PagedList;
+using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,15 +20,40 @@ namespace GeyikLoung.Controllers.Admin
             _context = new GeyikLoungContext();
         }
 
-        public ActionResult Index()
+        // Alt kategorileri kategoriye göre getiren aksiyon
+        public ActionResult GetAltKategorilerByCategory(int categoryId)
         {
-            var products = _context.Products.ToList();
-            return View(products);
+            var altKategoriler = _context.AltKategoris
+                                          .Where(a => a.CategoryId == categoryId)
+                                          .Select(a => new { a.Id, a.Name })
+                                          .ToList();
+
+            return Json(altKategoriler, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult Index(int? page)
+        {
+            // Veritabanındaki tüm ürünleri alıyoruz
+            var products = _context.Products.Include("Category").ToList();
+
+            // Sayfalama için varsayılan değer olarak 1. sayfa ve sayfa başına 5 ürün gösteriyoruz
+            int pageSize = 5;
+            int pageNumber = (page ?? 1); // Sayfa numarasını URL'den alıyoruz
+
+            // PagedList kullanarak ürünleri sayfalıyoruz
+            var pagedProducts = products.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedProducts);
         }
 
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name");
+
+            // Başlangıçta alt kategori listesi boş
+            ViewBag.AltKategoriId = new SelectList(Enumerable.Empty<SelectListItem>());
+
             return View();
         }
 
@@ -40,6 +67,7 @@ namespace GeyikLoung.Controllers.Admin
                 product.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
             }
 
+
             if (ModelState.IsValid)
             {
                 _context.Products.Add(product);
@@ -47,9 +75,14 @@ namespace GeyikLoung.Controllers.Admin
                 return RedirectToAction("Index");
             }
 
+            // Kategoriler ve alt kategoriler tekrar gönderilir
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
+            ViewBag.AltKategoriId = new SelectList(_context.AltKategoris, "Id", "Name", product.AltKategoriId);
+
             return View(product);
         }
+
 
         public ActionResult Edit(int id)
         {
@@ -58,9 +91,16 @@ namespace GeyikLoung.Controllers.Admin
             {
                 return HttpNotFound();
             }
+
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
+            // Seçilen kategoriye göre alt kategoriler
+            var altKategoriler = _context.AltKategoris.Where(a => a.CategoryId == product.CategoryId).ToList();
+            ViewBag.AltKategoriId = new SelectList(altKategoriler, "Id", "Name", product.AltKategoriId);
+
             return View(product);
         }
+
 
         [HttpPost]
         public ActionResult Edit(Product product, HttpPostedFileBase imageFile)
@@ -71,18 +111,26 @@ namespace GeyikLoung.Controllers.Admin
                 existingProduct.Name = product.Name;
                 existingProduct.Price = product.Price;
                 existingProduct.CategoryId = product.CategoryId;
+                existingProduct.AltKategoriId = product.AltKategoriId;
+
                 if (imageFile != null)
                 {
                     string imagePath = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(imageFile.FileName));
                     imageFile.SaveAs(imagePath);
                     existingProduct.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
                 }
+
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            var altKategoriler = _context.AltKategoris.Where(a => a.CategoryId == product.CategoryId).ToList();
+            ViewBag.AltKategoriId = new SelectList(altKategoriler, "Id", "Name", product.AltKategoriId);
+
             return View(product);
         }
+
 
         public ActionResult Delete(int id)
         {
@@ -105,5 +153,6 @@ namespace GeyikLoung.Controllers.Admin
             }
             return RedirectToAction("Index");
         }
+
     }
 }

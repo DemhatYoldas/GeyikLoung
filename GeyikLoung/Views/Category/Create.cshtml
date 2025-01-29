@@ -4,22 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model  GeyikLoung.Entities.Category
+@model GeyikLoung.Entities.Category
 
 @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group">
         <label for="Name">Kategori Adı</label>
-        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+        @Html.TextBoxFor(p => p.Name, new { @class = "form-control" })
     </div>
+
     <div class="form-group">
         <label for="Image">Kategori Resmi</label>
         <input type="file" name="imageFile" class="form-control" />
     </div>
-    @*<div class="form-group">
-            <label for="Menu">Menu</label>
-            @Html.DropDownList("ProductId", null, "Select Menu", new { @class = "form-control" })
-        </div>*@
-    <button type="submit" class="btn btn-primary">Ekle</button>
+
+    <div class="form-group">
+        <label for="altKategoriName">Alt Kategori Adı</label>
+        <input type="text" name="altKategoriName" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kategori Ekle</button>
 }
 

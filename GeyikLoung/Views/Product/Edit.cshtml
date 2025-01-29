@@ -1,29 +1,85 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @model GeyikLoung.Entities.Product
 
-@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.HiddenFor(m => m.Id)
-    <div class="form-group">
-        <label for="Name">Ürün Adı</label>
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="Price">Fiyat</label>
-        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="CategoryId">Kategorisi</label>
-        @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CategoryId, "Kategoriyi Seçiniz", new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="Image">Ürün Resmi</label>
-        <input type="file" name="imageFile" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Düzenle</button>
+@{
+    ViewData["Title"] = "Ürün Düzenle";
+}
+
+<form>
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="mb-3">
+            <label for="Name" class="form-label">Ürün Adı:</label>
+            <input type="text" name="Name" class="form-control" value="@Model.Name" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="Price" class="form-label">Ürün Fiyatı:</label>
+            <input type="number" name="Price" class="form-control" value="@Model.Price" required min="0" step="10.0" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Image" class="form-label">Ürün Resmi:</label>
+            <input type="file" name="imageFile" class="form-control" />
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.Name" class="img-thumbnail mt-3" style="width: 100px; height: auto;" />
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="CategoryId" class="form-label">Kategori:</label>
+            @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "Kategori Seçin", new { id = "CategoryId", @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            <label for="AltKategoriId" class="form-label">Alt Kategori:</label>
+            @Html.DropDownListFor(model => model.AltKategoriId, (SelectList)ViewBag.AltKategoriId, "Alt Kategori Seçin", new { id = "AltKategoriId", @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">Güncelle</button>
+    }
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Kategori değiştiğinde alt kategorileri güncelle
+            $('#CategoryId').change(function () {
+                var categoryId = $(this).val();
+
+                if (categoryId) {
+                    $.ajax({
+                        url: '@Url.Action("GetAltKategorilerByCategory", "Product")',
+                        data: { categoryId: categoryId },
+                        success: function (data) {
+                            var altKategoriDropdown = $('#AltKategoriId');
+                            altKategoriDropdown.empty();  // Önceki alt kategorileri temizle
+                            altKategoriDropdown.append('<option value="">Alt Kategori Seçin</option>');  // Varsayılan seçenek
+
+                            $.each(data, function (i, item) {
+                                altKategoriDropdown.append('<option value="' + item.Id + '">' + item.Name + '</option>');
+                            });
+
+                            // Eğer mevcut alt kategori varsa, seçili yapalım
+                            $('#AltKategoriId').val('@Model.AltKategoriId');
+                        }
+                    });
+                } else {
+                    $('#AltKategoriId').empty();
+                    $('#AltKategoriId').append('<option value="">Alt Kategori Seçin</option>');
+                }
+            });
+
+            // Sayfa yüklendiğinde, mevcut kategoriye göre alt kategorileri güncelle
+            $('#CategoryId').val('@Model.CategoryId').change();
+        });
+    </script>
 }

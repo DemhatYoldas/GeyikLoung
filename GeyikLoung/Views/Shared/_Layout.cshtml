@@ -1,12 +1,10 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 @Html.Action("partialHead", "Admin")
-
 
 <body class="nav-md">
     <div class="container body">
@@ -39,7 +37,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="/AdminLogin/Index">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -64,8 +62,6 @@
                                     <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                 </div>
                             </li>
-
-
                         </ul>
                     </nav>
                 </div>
@@ -73,34 +69,27 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
-                <!-- top tiles -->
-                <!-- /top tiles -->
-
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ">
-
                     </div>
-
                 </div>
                 <br />
 
                 <div class="row">
-
                     @RenderBody()
-
                 </div>
-
-
             </div>
             <!-- /page content -->
             <!-- footer content -->
             @Html.Action("partialFooter", "Admin")
-
             <!-- /footer content -->
+
         </div>
     </div>
 
-    @Html.Action("partialScript", "Admin")
+    <!-- Bu kısmı ekledik: Scripts bölümünün render edilmesi için -->
+    @RenderSection("Scripts", false)  <!-- Burada Scripts bölümünü render ediyoruz. -->
 
+    @Html.Action("partialScript", "Admin")  <!-- Eğer başka bir script yükleme aksiyonunuz varsa burada kalmalı -->
 </body>
 </html>
