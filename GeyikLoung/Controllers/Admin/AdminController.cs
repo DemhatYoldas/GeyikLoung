@@ -16,10 +16,21 @@ namespace GeyikLoung.Controllers.Admin
 
         public ActionResult Index()
         {
+            if (Session["AdminId"] == null || Session["AdminRole"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            Response.Cache.SetNoStore();
 
+            base.OnActionExecuting(filterContext);
+        }
 
         // Partial Views
         public PartialViewResult partialHead()

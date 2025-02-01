@@ -60,27 +60,33 @@ namespace GeyikLoung.Controllers.Admin
         [HttpPost]
         public ActionResult Create(Product product, HttpPostedFileBase imageFile)
         {
-            if (imageFile != null)
+            try
             {
-                string imagePath = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(imageFile.FileName));
-                imageFile.SaveAs(imagePath);
-                product.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
+                if (imageFile != null)
+                {
+                    string imagePath = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(imageFile.FileName));
+                    imageFile.SaveAs(imagePath);
+                    product.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _context.Products.Add(product);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                ViewBag.AltKategoriId = new SelectList(_context.AltKategoris, "Id", "Name", product.AltKategoriId);
+
+                return View(product);
             }
-
-
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                _context.Products.Add(product);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                // Hata mesajını logla veya kullanıcıya göster
+                ModelState.AddModelError("", "Bir hata oluştu: " + ex.Message);
+                return View(product);
             }
-
-            // Kategoriler ve alt kategoriler tekrar gönderilir
-            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-
-            ViewBag.AltKategoriId = new SelectList(_context.AltKategoris, "Id", "Name", product.AltKategoriId);
-
-            return View(product);
         }
 
 
