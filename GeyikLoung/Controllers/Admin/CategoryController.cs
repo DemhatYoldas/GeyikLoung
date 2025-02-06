@@ -4,6 +4,7 @@ using PagedList;
 using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -41,7 +42,7 @@ namespace GeyikLoung.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Create(Category category, HttpPostedFileBase imageFile, string altKategoriName)
+        public ActionResult Create(Category category, HttpPostedFileBase imageFile, List<string> altKategoriNames)
         {
             if (imageFile != null)
             {
@@ -52,82 +53,99 @@ namespace GeyikLoung.Controllers.Admin
 
             if (ModelState.IsValid)
             {
-                // Kategoriyi kaydediyoruz
                 _context.Categories.Add(category);
-                _context.SaveChanges();
+                _context.SaveChanges(); // Önce kategoriyi kaydetmeliyiz ki ID oluşsun.
 
-                // Alt kategori eklemek
-                if (!string.IsNullOrEmpty(altKategoriName))
+                // **Birden fazla alt kategori ekleme işlemi**
+                if (altKategoriNames != null && altKategoriNames.Any())
                 {
-                    var altKategori = new AltKategori
+                    foreach (var altKategoriName in altKategoriNames)
                     {
-                        Name = altKategoriName,
-                        CategoryId = category.Id
-                    };
-
-                    // Alt kategoriyi kaydediyoruz
-                    _context.AltKategoris.Add(altKategori);
-                    _context.SaveChanges();
+                        if (!string.IsNullOrWhiteSpace(altKategoriName)) // Boş alt kategoriler eklenmesin
+                        {
+                            var altKategori = new AltKategori
+                            {
+                                Name = altKategoriName,
+                                CategoryId = category.Id
+                            };
+                            _context.AltKategoris.Add(altKategori);
+                        }
+                    }
+                    _context.SaveChanges(); // Değişiklikleri kaydet
                 }
 
                 return RedirectToAction("Index");
             }
 
-            // Eğer model geçerli değilse, alt kategori seçimi için tekrar listeyi gönder
             ViewBag.Category = new SelectList(_context.Categories, "Id", "Name");
             return View(category);
         }
 
         public ActionResult Edit(int id)
         {
-            var category = _context.Categories.Find(id);
+            //_context.Categories.Include(c => c.AltKategoriler).FirstOrDefault(c => c.Id == id)
+
+            var category = _context.Categories.Include(a=>a.AltKategoriler).FirstOrDefault(c=>c.Id==id);
             if (category == null)
-            {
                 return HttpNotFound();
-            }
 
-            // Alt kategorileri de view'a gönderelim
-            ViewBag.AltKategoriler = new SelectList(_context.AltKategoris.Where(a => a.CategoryId == id), "Id", "Name");
-
-            return View(category); // Category modelini gönderiyoruz
+            return View(category);
         }
+
+
+
 
         [HttpPost]
-        public ActionResult Edit(Category category, HttpPostedFileBase imageFile, string altKategoriName)
+        public ActionResult Edit(Category category, HttpPostedFileBase imageFile, List<int> altKategoriIds, List<string> altKategoriNames)
         {
-            var existingCategory = _context.Categories.Find(category.Id);
-            if (existingCategory != null)
+            var existingCategory = _context.Categories.Include(c => c.AltKategoriler).FirstOrDefault(c => c.Id == category.Id);
+            if (existingCategory == null)
+                return HttpNotFound();
+
+            existingCategory.Name = category.Name;
+
+            if (imageFile != null)
             {
-                existingCategory.Name = category.Name;
-                existingCategory.ImagePath = category.ImagePath;
-
-                if (imageFile != null)
-                {
-                    string imagePath = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(imageFile.FileName));
-                    imageFile.SaveAs(imagePath);
-                    existingCategory.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
-                }
-
-                _context.SaveChanges();
-
-                // Alt kategori eklemek
-                if (!string.IsNullOrEmpty(altKategoriName))
-                {
-                    var altKategori = new AltKategori
-                    {
-                        Name = altKategoriName,
-                        CategoryId = category.Id
-                    };
-                    _context.AltKategoris.Add(altKategori);
-                    _context.SaveChanges();
-                }
-
-                return RedirectToAction("Index");
+                string imagePath = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(imageFile.FileName));
+                imageFile.SaveAs(imagePath);
+                existingCategory.ImagePath = "/images/" + Path.GetFileName(imageFile.FileName);
             }
 
-            ViewBag.AltKategoriler = new SelectList(_context.AltKategoris.Where(a => a.CategoryId == category.Id), "Id", "Name");
-            return View(category); // Category modelini tekrar gönderiyoruz
+            if (altKategoriNames != null && altKategoriNames.Any())
+            {
+                for (int i = 0; i < altKategoriNames.Count; i++)
+                {
+                    string name = altKategoriNames[i];
+                    int id = (altKategoriIds != null && i < altKategoriIds.Count) ? altKategoriIds[i] : 0;
+
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        if (id > 0)
+                        {
+                            // Mevcut alt kategoriyi güncelle
+                            var existingAltKategori = existingCategory.AltKategoriler.FirstOrDefault(ak => ak.Id == id);
+                            if (existingAltKategori != null)
+                            {
+                                existingAltKategori.Name = name;
+                            }
+                        }
+                        else
+                        {
+                            // Yeni alt kategori ekle
+                            existingCategory.AltKategoriler.Add(new AltKategori { Name = name });
+                        }
+                    }
+                }
+            }
+
+            // Silinen alt kategorileri kaldır
+            var altKategoriIdsSet = altKategoriIds?.ToHashSet() ?? new HashSet<int>();
+            existingCategory.AltKategoriler.Where(ak => !altKategoriIdsSet.Contains(ak.Id));
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
+
 
 
         public ActionResult Delete(int id)

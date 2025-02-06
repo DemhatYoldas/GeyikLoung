@@ -10,20 +10,48 @@
 {
     @Html.HiddenFor(m => m.Id)
 
-    <div class="form-group">
-        <label for="Name">Kategori Adı</label>
+    <div>
+        <label>Kategori Adı:</label>
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
     </div>
 
-    <div class="form-group">
-        <label for="Image">Kategori Resmi</label>
+    <div>
+        <label>Kategori Resmi:</label>
         <input type="file" name="imageFile" class="form-control" />
     </div>
 
-    <div class="form-group">
-        <label for="AltKategoriler">Alt Kategori Seçin</label>
-        @Html.DropDownListFor(m => m.AltKategoriler, (SelectList)ViewBag.AltKategoriler, "Alt Kategori Seçin", new { @class = "form-control" })
+    <div id="altKategoriler">
+        <label>Alt Kategoriler:</label>
+        @for (int i = 0; i < Model.AltKategoriler.Count; i++)
+        {
+            <div class="altKategori">
+                @Html.Hidden("altKategoriIds[]", Model.AltKategoriler.ToList()[i].Id)
+                <input type="text" name="altKategoriNames[]" value="@Model.AltKategoriler.ToList()[i].Name" class="form-control" />
+                <button type="button" class="btn btn-danger removeAltKategori">Sil</button>
+            </div>
+        }
     </div>
 
-    <button type="submit" class="btn btn-primary">Düzenle</button>
+    <button type="button" id="addAltKategori" class="btn btn-success">Alt Kategori Ekle</button>
+
+    <div>
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+    </div>
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#addAltKategori").click(function () {
+            $("#altKategoriler").append(
+                '<div class="altKategori"><input type="text" name="altKategoriNames[]" class="form-control" />' +
+                '<button type="button" class="btn btn-danger removeAltKategori">Sil</button></div>'
+            );
+        });
+
+        $(document).on("click", ".removeAltKategori", function () {
+            $(this).parent().remove();
+        });
+    });
+</script>
+

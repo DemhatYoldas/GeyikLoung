@@ -79,17 +79,7 @@ namespace GeyikLoung.Controllers
         public ActionResult Logout()
         {
             Session.Clear(); // Oturumu temizle
-            Session.Abandon(); // Oturumu tamamen sonlandır
-
-            // Tarayıcı önbelleğini temizle
-            Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
-            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
-            Response.Cache.SetNoStore();
-
             return RedirectToAction("Login", "Account");
         }
-
-
-
     }
 }
