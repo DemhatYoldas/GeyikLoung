@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GeyikLoung.Entities
 {
@@ -9,6 +10,9 @@ namespace GeyikLoung.Entities
         public string Name { get; set; }
 
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; } // İlgili kategori
+        public virtual Category Category { get; set; } // Bağlı olduğu kategori
+
+        // ✅ Yeni eklenen ilişki
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>(); // Alt kategoriye bağlı ürünler
     }
 }

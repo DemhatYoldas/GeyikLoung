@@ -178,6 +178,14 @@
     <Compile Include="Migrations\202502010318356_Update.Designer.cs">
       <DependentUpon>202502010318356_Update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502072148554_migaltkume.cs" />
+    <Compile Include="Migrations\202502072148554_migaltkume.Designer.cs">
+      <DependentUpon>202502072148554_migaltkume.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202503052146043_AddAltKategoriToProducts.cs" />
+    <Compile Include="Migrations\202503052146043_AddAltKategoriToProducts.Designer.cs">
+      <DependentUpon>202503052146043_AddAltKategoriToProducts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -5213,6 +5221,10 @@
     <Content Include="Thema\login\scss\style.scss" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Default\CategoryDetails.cshtml" />
+    <Content Include="Views\Default\SubCategoryList.cshtml" />
+    <Content Include="Views\Default\ProductList.cshtml" />
+    <Content Include="Views\Default\AltKategoriDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -5271,6 +5283,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502010318356_Update.resx">
       <DependentUpon>202502010318356_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502072148554_migaltkume.resx">
+      <DependentUpon>202502072148554_migaltkume.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503052146043_AddAltKategoriToProducts.resx">
+      <DependentUpon>202503052146043_AddAltKategoriToProducts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

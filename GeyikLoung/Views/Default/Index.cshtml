@@ -12,7 +12,7 @@
 <body>
     <div class="logo">
         <a href="#">
-          <img src="~/images/geyik.jpg" alt="Logo" />
+            <img src="~/images/geyik.jpg" alt="Logo" />
         </a>
     </div>
 
@@ -21,119 +21,20 @@
             @foreach (var category in Model)
             {
                 var imagePath = string.IsNullOrEmpty(category.ImagePath)
-                    ? "~/Thema/default_image.png"
-                    : category.ImagePath;
+                    ? Url.Content("~/Thema/default_image.png")
+                    : Url.Content(category.ImagePath);
 
-                <div class="swiper-slide" data-category-id="@category.Id" onclick="openModal(@category.Id, '@category.Name')">
-                    <img src="@Url.Content(imagePath)" alt="@category.Name">
-                    <span>@category.Name</span>
+                <div class="swiper-slide" data-category-id="@category.Id">
+                    <a href="@Url.Action("CategoryDetails", "Default", new { categoryId = category.Id })">
+                        <img src="@imagePath" alt="@category.Name">
+                        <span>@category.Name</span>
+                    </a>
                 </div>
             }
         </div>
-      </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="categoriModal" tabindex="-1" aria-labelledby="categoriModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="categoriModalLabel">Ürün Detayları</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Yükleniyor...</span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <script>
-        function openModal(categoryId, title) {
-            // Modal başlığı
-            document.getElementById("categoriModalLabel").innerText = title;
-
-            // Modal içeriğini sıfırla
-            const modalBody = document.querySelector("#categoriModal .modal-body");
-            modalBody.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Yükleniyor...</span></div>';
-
-            // Ajax ile ürünleri getir
-            fetch(`/Default/GetByCategory?categoryId=${categoryId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(products => {
-                    if (products.length > 0) {
-                        let content = '<div class="row bg-light p-3">';
-                        products.forEach((product, index) => {
-                            const imagePath = product.ImagePath || '/images/default-product.png';
-                            content += `
-                                    <div class="col-md-6 text-center mb-4">
-                                        <img src="${imagePath}" alt="${product.Name}" class="img-fluid rounded" />
-                                        <h6>${product.Name}</h6>
-                                        <p>${product.Price.toFixed(2)} ₺</p>
-                                    </div>
-                                `;
-                        });
-                        content += '</div>';
-                        modalBody.innerHTML = content;
-                    } else {
-                        modalBody.innerHTML = '<p>Bu kategoride ürün bulunmamaktadır.</p>';
-                    }
-                })
-                .catch(error => {
-                    modalBody.innerHTML = '<p>Ürünler yüklenirken bir hata oluştu. Lütfen tekrar deneyiniz.</p>';
-                    console.error('Error fetching products:', error);
-                });
-
-            // Modal'ı göster
-            const modal = new bootstrap.Modal(document.getElementById('categoriModal'));
-            modal.show();
-        }
-
-    </script>
-
     <style>
-        .modal-body .row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .modal-body .col-md-6 {
-            max-width: 200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .modal-body img {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 10px;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .modal-body h6 {
-            font-size: 16px;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        .modal-body p {
-            font-size: 14px;
-            color: #555;
-        }
-
         .swiper-slide {
             text-align: center;
             cursor: pointer;
@@ -151,6 +52,27 @@
                 display: block;
                 font-size: 16px;
                 font-weight: bold;
+            }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .product-card img {
+                max-width: 100%;
+                border-radius: 10px;
+            }
+
+            .product-card h5 {
+                margin: 10px 0;
+            }
+
+            .product-card p {
+                color: #666;
             }
     </style>
 
